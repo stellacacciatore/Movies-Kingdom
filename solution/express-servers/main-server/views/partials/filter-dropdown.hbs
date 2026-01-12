@@ -1,0 +1,14 @@
+<div class="dropdown mb-2 me-2 d-inline-block">
+    <button class="btn movie-btn-dark dropdown-toggle" type="button" id="{{filterId}}Dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        {{filterLabel}}
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="{{filterId}}Dropdown">
+        {{#each options}}
+            <li>
+                <a class="dropdown-item" href="{{../paginationBaseUrl}}={{../queriedMovie}}&page=0&sort={{../sortMethod}}&filter={{this.value}}">
+                {{this.label}}
+                </a>
+            </li>
+        {{/each}}
+    </ul>
+</div>

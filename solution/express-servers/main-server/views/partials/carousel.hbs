@@ -1,0 +1,29 @@
+<div id="mainCarousel" class="carousel slide container m-4 mx-auto bg-rose p-3 ps-5 pe-5" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    {{#each movies}}
+    <div class="carousel-item {{#if @first}}active{{/if}}">
+      <div class="row">
+        <div class="col-md-3">
+            <a href="/single-movie-page?movieId={{this.movieId}}">
+                <img src="{{this.posterLink}}" class="img-fluid" alt="{{this.movieTitle}}">
+            </a>
+        </div>
+        <div class="details col-md-9 text-center text-md-start p-4 bg-rose">
+          <h2>{{this.movieTitle}}</h2>
+          <h5 class="fst-italic">{{this.tagline}}</h5>
+          <p>{{this.description}}</p>
+          <a id="learn-more" href="/single-movie-page?movieId={{this.movieId}}" class="btn btn-outline-light">Learn More</a>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon bg-mattblue-arrow prev"></span>
+      <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon bg-mattblue-arrow next"></span>
+      <span class="visually-hidden">Next</span>
+  </button>
+</div>

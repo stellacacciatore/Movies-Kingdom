@@ -1,0 +1,74 @@
+<div id="top"></div>
+<div class="container mt-4 movies-page-container">
+    <h1 class="mb-4 text-center movies-page-title color-mattblue">{{pageTitle}}</h1>
+
+    <div class="filters-toolbar mb-4 p-3 bg-rose rounded shadow-sm">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="d-flex flex-wrap">
+                    {{#if isGenrePage}}
+                    {{else}}
+                    {{> filter-dropdown filterId="genreFilter" filterLabel="Genre" options=genreOptions enableClear=true paginationBaseUrl = paginationBaseUrl queriedMovie=query sortMethod=sortMethod filterMethod=filterMethod}}
+                    {{/if}}
+                    {{> filter-dropdown filterId="yearFilter" filterLabel="Year" options=yearOptions enableClear=true paginationBaseUrl = paginationBaseUrl queriedMovie=query sortMethod=sortMethod filterMethod=filterMethod}}
+                    {{> filter-dropdown filterId="languagesFilter" filterLabel="Language" options=languagesOptions enableClear=true paginationBaseUrl = paginationBaseUrl queriedMovie=query sortMethod=sortMethod filterMethod=filterMethod}}
+                </div>
+            </div>
+            <div class="col-md-4 mt-3 mt-md-0 d-flex justify-content-end align-items-center">
+                {{> sorting-dropdown filterId="sortOrder" filterLabel="Order by" options=sortOptions enableClear=true paginationBaseUrl = paginationBaseUrl queriedMovie=query sortMethod=sortMethod}}
+            </div>
+        </div>
+    </div>
+    {{#if movies.length}}
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4" id="movies-grid">
+            {{#each movies}}
+                {{> movie-card
+                        movie=this
+                        buttonColor="movie-btn-dark"
+                        textStyle=textStyle}}
+            {{/each}}
+        </div>
+        {{#if pagination.pages.length}}
+            <div class="d-flex justify-content-center mt-4 mb-5">
+                <nav>
+                    <ul class="pagination">
+                        {{#if pagination.showStartEllipsis}}
+                            <li class="page-item me-2">
+                                <a class="page-link movie-btn-dark" href="{{paginationBaseUrl}}={{query}}&page=0&sort={{sortMethod}}&filter={{filterMethod}}">1
+                                </a>
+                            </li>
+                            <li class="page-item disabled"><span class="page-link">...</span></li>
+                        {{/if}}
+
+                        {{#each pagination.pages}}
+                            <li class="page-item me-2 {{#ifCond this '===' ../pageData.number}}active{{/ifCond}}">
+                                <a class="page-link movie-btn-dark" href="{{../paginationBaseUrl}}={{../query}}&page={{this}}&sort={{../sortMethod}}&filter={{../filterMethod}}">
+                                {{add this 1}}
+                                </a>
+                            </li>
+                        {{/each}}
+
+                        {{#if pagination.showEndEllipsis}}
+                            <li class="page-item disabled me-2"><span class="page-link">...</span></li>
+                            <li class="page-item me-2">
+                                <a class="page-link movie-btn-dark" href="{{paginationBaseUrl}}={{query}}&page={{pagination.lastPage}}&sort={{sortMethod}}&filter={{filterMethod}}">
+                                {{add pagination.lastPage 1}}
+                                </a>
+                            </li>
+                        {{/if}}
+                    </ul>
+                </nav>
+            </div>
+        {{/if}}
+    {{else}}
+        <div class="alert alert-info text-center" role="alert">
+            <h4 class="alert-heading">No film found.</h4>
+            <p>Change filters or try again later.</p>
+        </div>
+    {{/if}}
+
+    <div class="text-center mt-4 mb-4">
+        <a href="#top" class="btn movie-btn-dark">Back to Top</a>
+    </div>
+</div>
+

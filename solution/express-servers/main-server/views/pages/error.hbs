@@ -1,0 +1,31 @@
+<div class="container d-flex justify-content-center align-items-center color-mattblue" style="min-height: 60vh;">
+    <div class="card shadow-lg" style="max-width: 450px; width: 100%;">
+        <div class="card-body text-center bg-rose">
+            {{#if error_type}}
+                {{#if (eq error_type 'Client Side Error')}}
+                    <i class="fa fa-wrench fa-3x color-mattblue mb-3"></i>
+                    <h2 class="color-mattblue">{{error_type}}</h2>
+                    <p>{{error_message}}</p>
+                {{else if (eq error_type 'Server Side Error')}}
+                    <i class="fa fa-wrench fa-3x color-mattblue mb-3"></i>
+                    <h2 class="color-mattblue">{{error_type}}</h2>
+                    <p>{{error_message}}</p>
+                {{else}}
+                    <i class="fa fa-wrench fa-3x color-mattblue mb-3"></i>
+                    <h2 class="color-mattblue">{{error_type}}</h2>
+                    <p>{{error_message}}</p>
+                {{/if}}
+            {{else}}
+                <i class="fa fa-wrench fa-3x color-mattblue mb-3"></i>
+                <h2 class="color-mattblue">ERROR</h2>
+                <p>{{error_messsage}}</p>
+            {{/if}}
+            <a href="/" class="btn movie-btn-dark mt-3"><i class="fa fa-home">Back to homepage</i> </a>
+        </div>
+    </div>
+</div>
+
+
+
+
+

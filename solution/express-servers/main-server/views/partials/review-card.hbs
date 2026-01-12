@@ -1,0 +1,28 @@
+<div class="card mb-4 shadow-sm border-0 bg-rose" style="position: relative;">
+    <div class="card-body m-2">
+        <div class="d-flex justify-content-between">
+            <h5 class="card-title color-mattblue fw-bold">{{this.critic_name}}</h5>
+            <span class="badge bg-mattblue"> {{this.review_type}} </span>
+        </div>
+        <div class="d-flex justify-content-between pt-1">
+            <h6 class="card-subtitle mb-2 text-muted">
+                {{this.publisher_name}}
+            </h6>
+            {{#if this.top_critic}}
+                <span class="badge bg-mattblue">⭐️ Top Critic</span>
+            {{/if}}
+        </div>
+        <p class="card-text mt-3 fst-italic">"{{this.review_content}}"</p>
+
+        <div class="d-flex justify-content-between align-items-center mt-4">
+            <small class="text-muted">
+                {{formatDate this.review_date}}
+            </small>
+            {{#if this.normalized_review_score}}
+                <span class="badge bg-mattblue"> Score: {{this.normalized_review_score}} / 100 </span>
+            {{/if}}
+        </div>
+
+
+    </div>
+</div>

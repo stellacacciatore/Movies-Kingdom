@@ -1,0 +1,46 @@
+<div id="header">
+    <a href="/">
+    <img src="/images/blue-logo-Photoroom.png" alt="Logo" id="top">
+    </a>
+</div>
+
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/" id="navbar-logo">
+            <img src="/images/logo-white.png" alt="Logo">Movies Kingdom
+        </a>
+        <button class="navbar-toggler movie-btn-light bg-rose" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon color-rose"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/bestOfAllTime?page=0&sort=movieId,asc">Best of all time</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tvseries?page=0&sort=movieId,asc">Tv Series</a>
+                </li>
+                <li class="nav-item dropdown">
+                    {{> header-dropdown-filter
+                            filterId="genres"
+                            filterLabel="Genres"
+                            options=genreOptionsNavbar
+                            baseUrl="/genres?type="
+                    }}
+                </li>
+                {{> header-dropdown-filter
+                        filterId="studios"
+                        filterLabel="Studios"
+                        options=studioOptions
+                        baseUrl="/studios?type="
+                }}
+            </ul>
+            <form class="d-flex ms-3" role="search" onsubmit="findMovieBySearch(event)" method="POST">
+                <input id="search-input" class="form-control form-control-lg me-2 rounded-pill shadow" type="search" name="qm" placeholder="Search movies..." aria-label="Search">
+                <button id="search-button" class="btn movie-btn-dark bg-white btn-lg rounded-pill shadow" type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</nav>

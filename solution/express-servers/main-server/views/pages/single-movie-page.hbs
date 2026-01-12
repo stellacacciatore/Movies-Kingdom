@@ -1,0 +1,207 @@
+<div id="top"></div>
+<div class="container mt-4 movie-details-container main-section bg-rose color-mattblue">
+{{#if movie}}
+
+        <!-- First row: Poster + basic info -->
+        <div class="row">
+            <div class="col-md-3 text-center text-md-start">
+                <img src="{{movie.poster_link}}" alt="Poster of {{movie.movie_title}}"
+                     class="movie-details-poster mb-3 mb-md-0">
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-8 movie-details-info">
+                <h1 class="movie-details-title display-4 fw-bold color-mattblue">{{movie.movie_title}}</h1>
+                {{#if movie.tagline}}
+                    <p class="color-mattblue fst-italic movie-details-tagline">{{movie.tagline}}</p>
+                {{/if}}
+                <hr>
+                <div class="movie-details-section">
+                    <h2>Plot</h2>
+                    <p>{{movie.description}}</p>
+                    <ul class="list-unstyled mt-3">
+                        <li><strong class="color-mattblue">Year of release: </strong>
+                            {{#if movie.year_of_release}}
+                                {{movie.year_of_release}}
+                            {{else}}
+                                Not available
+                            {{/if}}
+                        </li>
+                        <li><strong class="color-mattblue">Genres: </strong>
+                            {{#if movie.genres.length}}
+                                {{#each movie.genres}}{{this.genre}}{{#unless @last}}, {{/unless}}{{/each}}
+                            {{else}}
+                                Not available
+                            {{/if}}
+                        </li>
+                        <li><strong class="color-mattblue">Minutes: </strong>
+                            {{#if movie.minutes}}
+                                {{movie.minutes}} minutes.
+                            {{else}}
+                                Not Available.
+                            {{/if}}
+                        </li>
+                        <li id="rating-row">
+                            <strong class="color-mattblue">Rating: </strong>
+                            {{#if movie.rating}}
+                                <span id="movie-rating" data-rating="{{movie.rating}}"></span>
+                                <span id="star-rating"></span>
+                            {{else}}
+                                Not Available.
+                            {{/if}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{#if movie.themes.length}}
+        <div class="container mt-4">
+            <div class="scrollable-themes-row">
+                {{#each movie.themes}}
+                    <a href="/themes-page?theme={{this}}&page=0&sort=movieId,asc" class="theme-pill">
+                    {{this}}
+                    </a>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    <div>
+        {{#if movie.actors.length}}
+            <div class="container mt-4">
+                <h2 class="movie-details-title color-mattblue">Actors</h2>
+                <div class="scrollable-actors-row" id="actors-container">
+                    {{#each movie.actors}}
+                        <a href="/actor-page?actor={{this.actorName}}&page=0&sort=movieId,asc"
+                        class="actor-card-link text-decoration-none actor-item {{#ifCond @index '>=' 10}}
+                        d-none{{/ifCond}}">
+                        <div class="actor-scroll-card">
+                                <p class="actor-name">{{this.actorName}}</p>
+                                <p class="actor-role"><i>{{this.role}}</i></p>
+                        </div>
+                        </a>
+                    {{/each}}
+
+                        {{#ifCond movie.actors.length '>' 10}}
+                            <div id="toggle-actors-btn" class="actor-card actor-scroll-card show-more-card"
+                                 role="button">
+                                <p class="actor-name" id="toggle-actors-label">Show more</p>
+                            </div>
+                        {{/ifCond}}
+
+                </div>
+            </div>
+        {{/if}}
+    </div>
+    <div>
+        {{#if movie.directors.length}}
+            <div class="container mt-4">
+                <h2 class="movie-details-title color-mattblue">Directors</h2>
+                <div class="scrollable-actors-row" id="directors-container">
+                    {{#each movie.directors}}
+                        <a href="/director-page?director={{this.crewMemberName}}&page=0&sort=movieId,asc"
+                        class="actor-card-link text-decoration-none">
+                        <div class="actor-card actor-scroll-card">
+                            <p class="actor-name">{{this.crewMemberName}}</p>
+                        </div>
+                        </a>
+                    {{/each}}
+                </div>
+            </div>
+        {{/if}}
+
+    </div>
+
+
+    <!-- Second row: Details list -->
+    <div class="container mt-4 mb-4 movie-details-container details-section">
+        <div class="row">
+            <div class="p-3">
+                <h2><strong class="color-rose">Chat</strong></h2>
+                <div class="scrollable">
+                    {{> chat
+                            roomNumber=movie.movie_id
+                            movieTitle=movie.movie_title
+                    }}
+                </div>
+            </div>
+            <div class="p-3">
+                <h2><strong class="color-rose">Oscars</strong></h2>
+                {{#if movie.oscars.length}}
+                    <div class="scrollable">
+                        <div class="row g-3">
+                            {{#each movie.oscars}}
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <div class="oscar-card {{#if this.hasWon}}oscar-winner{{else}}oscar-nominee{{/if}}">
+                                        <div class="oscar-trophy">
+                                            {{#if this.hasWon}}
+                                                🏆
+                                            {{else}}
+                                                🏅
+                                            {{/if}}
+                                        </div>
+                                        <div class="oscar-details">
+                                            <div class="oscar-ceremony">#{{this.numberOfCeremony}} Academy Awards</div>
+                                            <div class="oscar-names"><strong>{{this.category}}</strong></div>
+                                            <div class="oscar-names"><i>{{this.subcategory}}</i></div>
+                                            <div class="oscar-names">{{this.candidateName}}</div>
+                                            <div class="oscar-result">
+                                                {{#if this.hasWon}}
+                                                    <span class="oscar-label winner">Winner</span>
+                                                {{else}}
+                                                    <span class="oscar-label nominee">Nominee</span>
+                                                {{/if}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                {{else}}
+                    <ul class="list-unstyled">
+                        <li class="color-rose">No Oscar nominations for this movie.</li>
+                    </ul>
+                {{/if}}
+            </div>
+            <div class="p-3">
+                <h2><strong class="color-rose">Reviews</strong></h2>
+                {{#if reviews}}
+                    <div class="scrollable">
+                        {{#each reviews}}
+                            {{> review-card review=this }}
+                        {{/each}}
+                    </div>
+                {{else}}
+                    <ul class="list-unstyled">
+                        <li class="color-rose">No available reviews for this movie yet.</li>
+                    </ul>
+                {{/if}}
+            </div>
+            <div class="p-3">
+                <h2><strong class="color-rose">Similar to this title</strong></h2>
+                {{#if movie.correlated}}
+                    {{> movies-section
+                            movies=movie.correlated
+                            sectionId="related"
+                            bgColor="bg-rose"
+                            buttonColor="movie-btn-dark"
+                            textStyle="movie-style-dark"}}
+                {{else}}
+                    <ul class="list-unstyled">
+                        <li class="color-rose">No available correlated movies for this movie yet.</li>
+                    </ul>
+                {{/if}}
+            </div>
+        </div>
+
+{{else}}
+        <div class="alert alert-warning text-center" role="alert">
+            <h3>Film not available </h3>
+            <p>The details are impossible to be loaded.</p>
+        </div>
+
+{{/if}}
+    <div class="text-center mt-4 mb-4">
+        <a href="#top" class="btn movie-btn-light btn-lg">Back to Top</a>
+    </div>
+</div>

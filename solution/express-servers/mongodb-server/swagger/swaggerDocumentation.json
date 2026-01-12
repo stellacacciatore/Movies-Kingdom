@@ -1,0 +1,342 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Movie Kingdom API",
+    "version": "1.0.0",
+    "description": "API for managing movie reviews and releases."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001",
+      "description": "Server to store MongoDB database"
+    }
+  ],
+  "paths": {
+    "/api/reviews/getReviews": {
+      "get": {
+        "tags": [
+          "Reviews"
+        ],
+        "summary": "Get movie reviews by title",
+        "description": "Retrieves a list of up to 10 reviews for a specific movie, sorted by review date.",
+        "parameters": [
+          {
+            "name": "movie",
+            "in": "query",
+            "description": "The title of the movie to search for.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "batman"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of reviews.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidParameterError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Invalid content headers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidContentsHeaderError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reviews/bestMoviesEver": {
+      "get": {
+        "tags": [
+          "Reviews"
+        ],
+        "summary": "Get the top 50 best movies ever",
+        "description": "Retrieves a list of the top 50 movie titles based on a weighted average score.",
+        "responses": {
+          "200": {
+            "description": "A list of movie titles.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidParameterError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFoundError"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Invalid content headers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidContentsHeaderError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/releases/getLatestMovies": {
+      "get": {
+        "tags": [
+          "Releases"
+        ],
+        "summary": "Get the latest 20 theatrical movie releases",
+        "description": "Retrieves a list of movie IDs for the 20 latest theatrical releases before January 1, 2024.",
+        "responses": {
+          "200": {
+            "description": "A list of movie IDs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListOfIDs"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Review": {
+        "type": "object",
+        "properties": {
+          "movie_title": {
+            "type": "string",
+            "description": "Title of the movie.",
+            "example": "batman"
+          },
+          "critic_name": {
+            "type": "string",
+            "description": "Name of the critic.",
+            "example": "Stella Cacciatore"
+          },
+          "top_critic": {
+            "type": "boolean",
+            "description": "Indicates if the critic is a top critic.",
+            "example": true
+          },
+          "publisher_name": {
+            "type": "string",
+            "description": "Name of the publisher.",
+            "example": "Niccolò Faraca's News"
+          },
+          "review_type": {
+            "type": "string",
+            "description": "Type of the review (e.g., Fresh, Rotten).",
+            "example": "Rotten"
+          },
+          "review_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date of the review."
+          },
+          "review_content": {
+            "type": "string",
+            "description": "Content of the review.",
+            "example": "Beautiful movie, loved it so much."
+          },
+          "normalized_review_score": {
+            "type": "number",
+            "format": "float",
+            "description": "Normalized score of the review.",
+            "example": 80.0
+          }
+        }
+      },
+      "Release": {
+        "type": "object",
+        "properties": {
+          "movie_id": {
+            "type": "integer",
+            "description": "ID of the movie."
+          },
+          "country": {
+            "type": "string",
+            "description": "Country of release."
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date of release."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of release (e.g., Theatrical, DVD)."
+          }
+        }
+      },
+      "ListOfMovies": {
+        "type": "array",
+        "description": "An array of movie titles",
+        "example": [
+          "Parasite",
+          "Boyhood",
+          "No Country for Old Men",
+          "Gravity",
+          "Toy Story 3"
+        ]
+      },
+      "ListOfIDs": {
+        "type": "array",
+        "description": "An array of movie ids correspondent to the latest releases",
+        "example": [
+          1000001,
+          1000234,
+          1394034,
+          1345893,
+          19027484,
+          19749202
+        ]
+      },
+      "GenericError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "The error code",
+            "example": "500"
+          },
+          "message": {
+            "type": "string",
+            "description": "The error message",
+            "example": "Internal Server Error"
+          }
+        }
+      },
+      "InvalidParameterError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "The error code",
+            "example": "400"
+          },
+          "message": {
+            "type": "string",
+            "description": "The error message",
+            "example": "Invalid parameters"
+          }
+        }
+      },
+      "ResourceNotFoundError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "The error code",
+            "example": "404"
+          },
+          "message": {
+            "type": "string",
+            "description": "The error message",
+            "example": "Resource not found"
+          }
+        }
+      },
+      "InvalidContentsHeaderError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "The error code",
+            "example": "415"
+          },
+          "message": {
+            "type": "string",
+            "description": "The error message",
+            "example": "Invalid content header"
+          }
+        }
+      }
+    }
+  }
+}

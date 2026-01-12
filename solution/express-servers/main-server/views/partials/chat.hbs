@@ -1,0 +1,24 @@
+<div id="initial_form" style="display: block">
+    <form onsubmit="return false;" class="chat-form">
+        <p>
+            <label for="name" class="color-mattblue"> Enter your name: </label>
+            <input type="text" id="name" name="name" class="chat-input">
+        </p>
+        <button id="connect" class="btn movie-btn-dark" onclick="joinChat({{roomNumber}})">Connect</button>
+    </form>
+</div>
+<div id="chat_interface" style="display: none">
+    <div class ="color-mattblue">
+        <div id="name_of_user" style="display: inline"></div>, you can now chat with other {{movieTitle}} fans!
+    </div>
+    <ul id="history" class="boxed list-unstyled"></ul>
+    <div id="input" class="bottom boxed">
+        <form onsubmit="return false;" style="width: 100%">
+            <p>
+                <label class="color-mattblue" for="name"> chat: </label>
+                <input type="text" id="chat_input" name="chat_input" style="width: 80%">
+                <button class="btn movie-btn-dark" id="chat_send" onclick="sendNewMessage()">Send</button>
+            </p>
+        </form>
+    </div>
+</div>

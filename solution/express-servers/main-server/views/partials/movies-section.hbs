@@ -1,0 +1,11 @@
+<!-- MOVIE SECTION TEMPLATE -->
+<div class="{{bgColor}} m-4 p-4 movie-section-template {{textStyle}}" id="{{sectionId}}">
+    <h2 class="mb-4 {{titleColor}}">{{sectionTitle}}</h2>
+    <div class="position-relative">
+        <div class="d-flex overflow-auto flex-nowrap gap-3 p-3">
+            {{#each movies}}
+                {{> movie-card textStyle=../textStyle buttonColor=../buttonColor}}
+            {{/each}}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div id="top"></div>
+{{> carousel movies=movies}}
+
+<div class="container my-5">
+    <div class="row align-items-center">
+        <div class="col-md-6 mb-3 mb-md-0">
+            <div class="p-3 color-mattblue">
+                <h4 class="mb-3">Find Your New Favorite Movie!</h4>
+                <p>Just type here the themes you would love your movie to have, we are going to pick
+                the top 10 best options in slot for you to watch tonight. Use some keywords to describe the themes your
+            movie should have and separate them by a comma... then enjoy the results!
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <form class="d-flex ms-3" onsubmit="findMoviesByTheme(event)" role="search">
+                <input id="theme-search" class="form-control form-control-lg me-2 rounded-pill shadow" type="search" name="movie" placeholder="Type here your themes..." aria-label="Search" style="max-width: 500px;">
+                <button class="btn movie-btn-dark btn-lg rounded-pill shadow" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{> movies-section
+        movies=mostAwarded
+        sectionId="most-awarded"
+        sectionTitle="Most Awarded In 2023"
+        bgColor="bg-mattblue"
+        buttonColor="movie-btn-light"
+        textStyle="text-style-light"}}
+
+{{> movies-section
+        movies=topRatedMovies
+        sectionId="top-rated"
+        sectionTitle="Top Rated In 2023"
+        bgColor="bg-rose"
+        buttonColor="movie-btn-dark"
+        textStyle="movie-style-dark"}}
+
+{{> movies-section
+        sectionId="latest"
+        sectionTitle="Latest Releases"
+        movies=latestMovies
+        bgColor="bg-mattblue"
+        buttonColor="movie-btn-light"
+        textStyle="text-style-light"}}
+
+<div class="text-center mt-4 mb-4">
+    <a href="#top" class="btn movie-btn-dark">Back to Top</a>
+</div>

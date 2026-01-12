@@ -1,0 +1,15 @@
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="{{filterId}}Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        {{filterLabel}}
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="{{filterId}}Dropdown">
+        {{#each options}}
+            <li>
+                <a class="dropdown-item" href="{{../baseUrl}}{{this.value}}&sort=movieId,asc">
+                    {{this.label}}
+                </a>
+            </li>
+        {{/each}}
+    </ul>
+</li>
+

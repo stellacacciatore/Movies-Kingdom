@@ -1,0 +1,555 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "version": "1.0.0",
+    "title": "Movie Kingdom Website API",
+    "description": "Movie Website API",
+    "termsOfService": "http://api_url/terms/",
+    "contact": {
+      "name": "Niccolò Faraca & Stella Cacciatore",
+      "email": "niccolo.faraca@edu.unito.it"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/",
+      "description": "the Main Server responsible of delivering requests"
+    }
+  ],
+  "paths": {
+    "/theme-finder": {
+      "get": {
+        "tags": [
+          "Homepage"
+        ],
+        "description": "Retrieves information about movies with certain theme keywords decided by the user.",
+        "operationId": "themeFinder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/themes"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "a list of string keywords",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MovieCardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidParametersError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericError"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Invalid content headers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "tags": [
+          "Homepage"
+        ],
+        "description": "Retrieves information about movies with a certain name",
+        "operationId": "search",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "A list of movies matched with the name",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MovieCardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidParametersError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bestOfAllTime": {
+      "get": {
+        "tags": [
+          "Navbar"
+        ],
+        "description": "Retrieves movies with the highest average review scores of all time by combining MongoDB review data and SpringBoot movie information.",
+        "operationId": "bestOfAllTimes",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SimpleRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "A list of tv-series",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MovieCardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidParametersError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tvseries": {
+      "get": {
+        "tags": [
+          "Navbar"
+        ],
+        "description": "Retrieves movies with a tv-series-like runtime in minutes.",
+        "operationId": "tvseries",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SimpleRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "A list of top-rated movies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MovieCardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidParametersError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/genres": {
+      "get": {
+        "tags": [
+          "Navbar"
+        ],
+        "description": "Retrieves movies with a specific genre",
+        "operationId": "genres",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenreRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "A list of movies matched with genre",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MovieCardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidParametersError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/studios": {
+      "get": {
+        "tags": [
+          "Navbar"
+        ],
+        "description": "Retrieves movies from a specific studio",
+        "operationId": "studios",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudioRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "A list of movies matched with studio",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MovieCardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidParametersError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/single-movie-page": {},
+    "/actor-page": {},
+    "/director-page": {}
+  },
+  "components": {
+    "schemas": {
+      "queriedMovie": {
+        "type": "string",
+        "description": "The movie written in the searchbar by the user",
+        "example": "batman"
+      },
+      "queriedStudio": {
+        "type": "string",
+        "description": "The studio chosen by the user",
+        "example": "Walt Disney"
+      },
+      "queriedGenre": {
+        "type": "string",
+        "description": "The genre chosen by the user.",
+        "example": "Documentary"
+      },
+      "page": {
+        "type": "integer",
+        "description": "The page of the movie the user is on",
+        "example": 0
+      },
+      "sort": {
+        "type": "string",
+        "description": "The type of sorting and the direction of sorting separated by a comma",
+        "example": "movieId,asc"
+      },
+      "filter": {
+        "type": "string",
+        "description": "The type of filtering and the specified filter separated by a comma",
+        "example": "language,English"
+      },
+      "themes": {
+        "type": "array",
+        "description": "The array of themes written as keywords by the user.",
+        "example": [
+          "love",
+          "war",
+          "faith"
+        ]
+      },
+      "movieId": {
+        "type": "integer",
+        "description": "The id of a movie",
+        "example": 1000001
+      },
+      "movieTitle": {
+        "type": "string",
+        "description": "The title of a movie",
+        "example": "batman begins"
+      },
+      "year": {
+        "type": "integer",
+        "description": "The year of release of a movie",
+        "example": 2022
+      },
+      "poster": {
+        "type": "string",
+        "description": "The url of the poster of a movie"
+      },
+      "movieCard": {
+        "type": "object",
+        "description": "Contains necessary information for a movie card",
+        "properties": {
+          "movieId": {
+            "$ref": "#/components/schemas/movieId"
+          },
+          "movieTitle": {
+            "$ref": "#/components/schemas/movieTitle"
+          },
+          "year": {
+            "$ref": "#/components/schemas/year"
+          },
+          "poster": {
+            "$ref": "#/components/schemas/poster"
+          }
+        },
+        "required": [
+          "movieId",
+          "movieTitle"
+        ]
+      },
+      "SimpleRequest": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "$ref": "#/components/schemas/page"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/sort"
+          },
+          "filter": {
+            "$ref": "#/components/schemas/filter"
+          }
+        },
+        "required": [
+          "queriedMovie"
+        ]
+      },
+      "SearchRequest": {
+        "type": "object",
+        "properties": {
+          "queriedMovie": {
+            "$ref": "#/components/schemas/queriedMovie"
+          },
+          "page": {
+            "$ref": "#/components/schemas/page"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/sort"
+          },
+          "filter": {
+            "$ref": "#/components/schemas/filter"
+          }
+        },
+        "required": [
+          "queriedMovie"
+        ]
+      },
+      "StudioRequest": {
+        "type": "object",
+        "properties": {
+          "queriedStudio": {
+            "$ref": "#/components/schemas/queriedStudio"
+          },
+          "page": {
+            "$ref": "#/components/schemas/page"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/sort"
+          },
+          "filter": {
+            "$ref": "#/components/schemas/filter"
+          }
+        },
+        "required": [
+          "queriedStudio"
+        ]
+      },
+      "GenreRequest": {
+        "type": "object",
+        "properties": {
+          "queriedGenre": {
+            "$ref": "#/components/schemas/queriedGenre"
+          },
+          "page": {
+            "$ref": "#/components/schemas/page"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/sort"
+          },
+          "filter": {
+            "$ref": "#/components/schemas/filter"
+          }
+        },
+        "required": [
+          "queriedGenre"
+        ]
+      },
+      "MovieCardResponse": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/movieCard"
+        }
+      },
+      "GenericError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 500
+          },
+          "message": {
+            "type": "string",
+            "example": "Internal server error"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "InvalidParametersError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 400
+          },
+          "message": {
+            "type": "string",
+            "example": "Invalid parameters"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      }
+    }
+  }
+}
